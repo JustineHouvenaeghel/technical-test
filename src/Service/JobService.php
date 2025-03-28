@@ -175,7 +175,7 @@ class JobService
             
             $importedAt = new \DateTime();
             $filesystem = new Filesystem();
-            $filesystem->mkdir($this->params->get('kernel.project_dir').'/public/logs', 0644);
+            $filesystem->mkdir($this->params->get('kernel.project_dir').'/public/logs', 0744);
             $filesystem->dumpFile($this->params->get('kernel.project_dir').'/public/logs/import-france-travail-'. $importedAt->format('YmdHis') .'.json', json_encode($importedData, JSON_PRETTY_PRINT));
 
             return new JsonResponse(['url' => '/logs/import-france-travail-'. $importedAt->format('YmdHis') .'.json'], 200);
