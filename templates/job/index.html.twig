@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des offres{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
+{% endblock %}
+
+{% block body %}
+    <main class="container">
+        <table id="job-list">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Id France Travail</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Ville</th>
+                    <th scope="col">Code postal</th>
+                    <th scope="col">Entreprise</th>
+                    <th scope="col">Type de contrat</th>
+                    <th scope="col">Date création</th>
+                    <th scope="col">Date actualisation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in jobs %}
+                    <tr>
+                        <td>{{ job.id }}</td>
+                        <td>{% if job.franceTravailId %}<a href="{{ france_travail_job_url }}{{ job.franceTravailId }}" target="_blank">{{ job.franceTravailId }}</a>{% endif %}</td>
+                        <td>{{ job.name }}</td>
+                        <td>{{ job.description|striptags|u.truncate(10, '&hellip;')|raw }}</td>
+                        <td>{{ job.city }}</td>
+                        <td>{{ job.zipCode }}</td>
+                        <td>{{ job.company ? job.company.name : '-' }}</td>
+                        <td>{{ job.contractType }}</td>
+                        <td>{{ job.createdAt | date('d/m/Y') }}</td>
+                        <td>{{ job.updatedAt ? job.updatedAt | date('d/m/Y') : '-' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+    <script>
+        (function() {	
+            let table = new DataTable('#job-list');
+        })();
+    </script>
+{% endblock %}
